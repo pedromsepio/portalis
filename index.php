@@ -22,11 +22,9 @@
         echo "cURL Error #:" . $err;
     }
 
-    $json = array();
-    $json = json_decode($response, true);
-    echo "<pre>";
-    print_r($json);
-    echo "</pre>";
+    $deals = array();
+    $deals = json_decode($response, true);
+
 ?>
 
 <!doctype html>
@@ -40,17 +38,16 @@
     <title>Sepio Systems</title>
 </head>
 <body>
-
-    <table class="table">
+    <div class="container">
+        <table class="table">
         <thead>
         <tr>
+            <th scope="col">ID</th>
             <th scope="col">Amount</th>
             <th scope="col">Close Date</th>
             <th scope="col">Create Date</th>
             <th scope="col">Deal Name</th>
             <th scope="col">Deal Stage</th>
-            <th scope="col">hs_lastmodifieddate</th>
-            <th scope="col">hs_object_id</th>
             <th scope="col">pipeline</th>
         </tr>
         </thead>
@@ -58,18 +55,16 @@
         <?php
         if ($response != '') {
             //echo $response;
-            $i = 0;
-            foreach ($json as $deals){
+            foreach ($deals['results'] as $deal=>$value) {
         ?>
             <tr>
-                <td><?php echo $json['results'][$i++]['properties']['amount']; ?></td>
-                <td><?php echo $json['results'][$i++]['properties']['closedate']; ?></td>
-                <td><?php echo $json['results'][$i++]['properties']['createdate']; ?></td>
-                <td><?php echo $json['results'][$i++]['properties']['dealname']; ?></td>
-                <td><?php echo $json['results'][$i++]['properties']['dealstage']; ?></td>
-                <td><?php echo $json['results'][$i++]['properties']['hs_lastmodifieddate']; ?></td>
-                <td><?php echo $json['results'][$i++]['properties']['hs_object_id']; ?></td>
-                <td><?php echo $json['results'][$i++]['properties']['pipeline']; ?></td>
+                <td><?php echo $deals['results'][$deal]['id']; ?></td>
+                <td><?php echo $deals['results'][$deal]['properties']['amount']; ?></td>
+                <td><?php echo $deals['results'][$deal]['properties']['closedate']; ?></td>
+                <td><?php echo $deals['results'][$deal]['properties']['createdate']; ?></td>
+                <td><?php echo $deals['results'][$deal]['properties']['dealname']; ?></td>
+                <td><?php echo $deals['results'][$deal]['properties']['dealstage']; ?></td>
+                <td><?php echo $deals['results'][$deal]['properties']['pipeline']; ?></td>
             </tr>
         <?php
             }
@@ -77,8 +72,7 @@
         ?>
         </tbody>
     </table>
-
-
+    </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
